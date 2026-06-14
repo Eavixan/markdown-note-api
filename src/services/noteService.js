@@ -41,7 +41,23 @@ const getAllNotes = () => {
         }));
 };
 
+const getNoteById = (id) => {
+    const filePath = path.join(notesDir, id);
+
+    if (!fs.existsSync(filePath)) {
+        throw new Error("Note not found");
+    }
+
+    const content = fs.readFileSync(filePath, "utf-8");
+
+    return {
+        id,
+        content,
+    };
+};
+
 module.exports = {
     createNote,
     getAllNotes,
+    getNoteById,
 };

@@ -24,7 +24,23 @@ const getAllNotes = (req, res) => {
     });
 };
 
+const getNoteById = (req, res) => {
+    try {
+        const note = noteService.getNoteById(req.params.id);
+
+        res.json({
+            message: "Note fetched successfully",
+            data: note,
+        });
+    } catch (error) {
+        res.status(404).json({
+            message: error.message,
+        });
+    }
+};
+
 module.exports = {
     createNote,
     getAllNotes,
+    getNoteById,
 };
