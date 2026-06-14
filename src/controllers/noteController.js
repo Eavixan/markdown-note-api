@@ -51,9 +51,25 @@ const getNoteAsHtml = (req, res) => {
     }
 };
 
+const uploadNote = (req, res) => {
+    try {
+        const note = noteService.createNoteFromUploadedFile(req.file);
+
+        res.status(201).json({
+            message: "Markdown file uploaded successfully",
+            data: note,
+        });
+    } catch (error) {
+        res.status(400).json({
+            message: error.message,
+        });
+    }
+};
+
 module.exports = {
     createNote,
     getAllNotes,
     getNoteById,
     getNoteAsHtml,
+    uploadNote,
 };

@@ -68,9 +68,35 @@ const getNoteAsHtml = (id) => {
     };
 };
 
+const createNoteFromUploadedFile = (file) => {
+    if (!file) {
+        throw new Error("Markdown file is required");
+    }
+
+    const fileExtension = path.extname(file.originalname);
+
+    if (fileExtension !== ".md") {
+        fs.unlinkSync(file.path);
+        throw new Error("Only .md files are allowed");
+    }
+
+    const content = fs.readFileSync(file.path, "utf-8");
+    const title = path.basename(file.originalname, ".md");
+
+    const note = createNote({
+        title,
+        content,
+    });
+
+    fs.unlinkSync(file.path);
+
+    return note;
+};
+
 module.exports = {
     createNote,
     getAllNotes,
     getNoteById,
     getNoteAsHtml,
+    createNoteFromUploadedFile,
 };
