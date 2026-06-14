@@ -1,0 +1,35 @@
+const fs = require("fs");
+const path = require("path");
+
+const notesDir = path.join(__dirname, "../../notes");
+
+// Create notes folder if it does not exist
+if (!fs.existsSync(notesDir)) {
+  fs.mkdirSync(notesDir);
+}
+
+const createNote = ({ title, content }) => {
+  if (!title || !content) {
+    throw new Error("Title and content are required");
+  }
+
+  const safeTitle = title
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+
+  const fileName = `${Date.now()}-${safeTitle}.md`;
+  const filePath = path.join(notesDir, fileName);
+
+  fs.writeFileSync(filePath, content, "utf-8");
+
+  return {
+    id: fileName,
+    title,
+    fileName,
+  };
+};
+
+module.exports = {
+  createNote,
+};
