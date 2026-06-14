@@ -1,5 +1,6 @@
 const fs = require("fs");
 const path = require("path");
+const { marked } = require("marked");
 
 const notesDir = path.join(__dirname, "../../notes");
 
@@ -56,8 +57,20 @@ const getNoteById = (id) => {
     };
 };
 
+const getNoteAsHtml = (id) => {
+    const note = getNoteById(id);
+
+    const html = marked(note.content);
+
+    return {
+        id,
+        html,
+    };
+};
+
 module.exports = {
     createNote,
     getAllNotes,
     getNoteById,
+    getNoteAsHtml,
 };

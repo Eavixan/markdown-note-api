@@ -39,8 +39,21 @@ const getNoteById = (req, res) => {
     }
 };
 
+const getNoteAsHtml = (req, res) => {
+    try {
+        const note = noteService.getNoteAsHtml(req.params.id);
+
+        res.send(note.html);
+    } catch (error) {
+        res.status(404).json({
+            message: error.message,
+        });
+    }
+};
+
 module.exports = {
     createNote,
     getAllNotes,
     getNoteById,
+    getNoteAsHtml,
 };
