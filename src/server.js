@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const noteRoutes = require("./routes/noteRoutes");
 
 const app = express();
 const PORT = 5000;
@@ -12,6 +13,8 @@ app.get("/", (req, res) => {
     message: "Markdown Note API is running",
   });
 });
+
+app.use("/api/notes", noteRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
