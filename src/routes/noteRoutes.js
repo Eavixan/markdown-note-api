@@ -1,13 +1,9 @@
 const express = require("express");
-const { createNote } = require("../controllers/noteController");
+const { createNote, getAllNotes } = require("../controllers/noteController");
 
 const router = express.Router();
 
-router.get("/", (req, res) => {
-  res.json({
-    message: "Notes route is working",
-  });
-});
+router.get("/", getAllNotes);
 
 router.post("/", createNote);
 

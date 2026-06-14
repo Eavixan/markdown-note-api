@@ -5,31 +5,43 @@ const notesDir = path.join(__dirname, "../../notes");
 
 // Create notes folder if it does not exist
 if (!fs.existsSync(notesDir)) {
-  fs.mkdirSync(notesDir);
+    fs.mkdirSync(notesDir);
 }
 
 const createNote = ({ title, content }) => {
-  if (!title || !content) {
-    throw new Error("Title and content are required");
-  }
+    if (!title || !content) {
+        throw new Error("Title and content are required");
+    }
 
-  const safeTitle = title
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/(^-|-$)/g, "");
+    const safeTitle = title
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/(^-|-$)/g, "");
 
-  const fileName = `${Date.now()}-${safeTitle}.md`;
-  const filePath = path.join(notesDir, fileName);
+    const fileName = `${Date.now()}-${safeTitle}.md`;
+    const filePath = path.join(notesDir, fileName);
 
-  fs.writeFileSync(filePath, content, "utf-8");
+    fs.writeFileSync(filePath, content, "utf-8");
 
-  return {
-    id: fileName,
-    title,
-    fileName,
-  };
+    return {
+        id: fileName,
+        title,
+        fileName,
+    };
+};
+
+const getAllNotes = () => {
+    const files = fs.readdirSync(notesDir);
+
+    return files
+        .filter((file) => file.endsWith(".md"))
+        .map((file) => ({
+            id: file,
+            fileName: file,
+        }));
 };
 
 module.exports = {
-  createNote,
+    createNote,
+    getAllNotes,
 };
